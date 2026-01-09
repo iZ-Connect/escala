@@ -4,132 +4,194 @@
 <meta charset="UTF-8">
 <title>Escala de Serviço - HGeSM</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: radial-gradient(circle at top, #0b1220, #020617); margin: 0; padding: 20px; color: #e5e7eb; min-height: 100vh; }
-  .container { max-width: 1000px; margin: auto; }
-  h1 { text-align: center; color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-  h2 { color: #3b82f6; border-bottom: 2px solid #1e293b; padding-bottom: 8px; }
-  
-  .menu { text-align: center; margin: 30px 0; }
-  select { padding: 12px 24px; border-radius: 8px; background: #1e293b; color: #f8fafc; border: 1px solid #3b82f6; font-size: 16px; cursor: pointer; outline: none; }
-  select:hover { border-color: #60a5fa; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: radial-gradient(circle at top, #0b1220, #020617);
+  margin: 0;
+  padding: 20px;
+  color: #e5e7eb;
+  min-height: 100vh;
+}
 
-  table { width: 100%; border-collapse: collapse; background: #0f172a; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-  th { background: #1e293b; padding: 15px; text-align: left; text-transform: uppercase; font-size: 13px; color: #94a3b8; letter-spacing: 1px; }
-  td { padding: 14px 15px; border-bottom: 1px solid #1e293b; font-size: 15px; }
-  
-  tr:last-child td { border-bottom: none; }
-  tr:hover { background: #1e293b; }
-  
-  /* Cores de destaque para fins de semana */
-  .weekend { background: #450a0a !important; color: #fecaca; }
-  .weekend:hover { background: #7f1d1d !important; }
+.container {
+  max-width: 1000px;
+  margin: auto;
+}
 
-  .ferias-section { margin-top: 50px; background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; border: 1px solid #1e293b; }
-  .ferias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 15px; }
-  .ferias-card { background: #1e293b; padding: 15px; border-radius: 8px; border-left: 5px solid #3b82f6; transition: transform 0.2s; }
-  .ferias-card:hover { transform: translateY(-3px); }
-  .ferias-card strong { display: block; color: #f8fafc; font-size: 16px; }
-  .ferias-card span { color: #94a3b8; font-size: 14px; }
+h1 {
+  text-align: center;
+  color: #ffffff;
+}
 
-  footer { text-align: center; margin-top: 50px; padding: 20px; font-size: 12px; color: #64748b; border-top: 1px solid #1e293b; }
+h2 {
+  color: #3b82f6;
+  border-bottom: 2px solid #1e293b;
+  padding-bottom: 8px;
+}
+
+.menu {
+  text-align: center;
+  margin: 30px 0;
+}
+
+select {
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #f8fafc;
+  border: 1px solid #3b82f6;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #0f172a;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+th {
+  background: #1e293b;
+  padding: 15px;
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+td {
+  padding: 14px 15px;
+  border-bottom: 1px solid #1e293b;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover {
+  background: #1e293b;
+}
+
+.weekend {
+  background: #450a0a !important;
+  color: #fecaca;
+}
+
+.ferias-section {
+  margin-top: 50px;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #1e293b;
+}
+
+.ferias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.ferias-card {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 5px solid #3b82f6;
+}
+
+footer {
+  text-align: center;
+  margin-top: 50px;
+  padding: 20px;
+  font-size: 12px;
+  color: #64748b;
+  border-top: 1px solid #1e293b;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
+
   <h1>📋 Escala de Serviço - HGeSM</h1>
-  
+
   <div class="menu">
     <select id="mesSelect" onchange="carregarDados()">
-      <option value="JANEIRO">JANEIRO</option>
-      <option value="FEVEREIRO">FEVEREIRO</option>
-      <option value="MARÇO">MARÇO</option>
-      <option value="ABRIL">ABRIL</option>
-      <option value="MAIO">MAIO</option>
-      <option value="JUNHO">JUNHO</option>
-      <option value="JULHO">JULHO</option>
-      <option value="AGOSTO">AGOSTO</option>
-      <option value="SETEMBRO">SETEMBRO</option>
-      <option value="OUTUBRO">OUTUBRO</option>
-      <option value="NOVEMBRO">NOVEMBRO</option>
-      <option value="DEZEMBRO">DEZEMBRO</option>
-      <option value="JANEIRO ANO NOVO">JANEIRO (ANO NOVO)</option>
+      <option>JANEIRO</option>
+      <option>FEVEREIRO</option>
+      <option>MARÇO</option>
+      <option>ABRIL</option>
+      <option>MAIO</option>
+      <option>JUNHO</option>
+      <option>JULHO</option>
+      <option>AGOSTO</option>
+      <option>SETEMBRO</option>
+      <option>OUTUBRO</option>
+      <option>NOVEMBRO</option>
+      <option>DEZEMBRO</option>
     </select>
   </div>
 
   <table>
     <thead>
       <tr>
-        <th style="width: 20%;">Data</th>
-        <th style="width: 15%;">Dia</th>
-        <th style="width: 32.5%;">Militar</th>
-        <th style="width: 32.5%;">Substituído</th>
+        <th>Data</th>
+        <th>Dia</th>
+        <th>Militar</th>
+        <th>Substituído</th>
       </tr>
     </thead>
-    <tbody id="escalaBody">
-      </tbody>
+    <tbody id="escalaBody"></tbody>
   </table>
 
   <div class="ferias-section">
     <h2>🌴 Férias e Afastamentos</h2>
-    <div id="feriasGrid" class="ferias-grid">
-      </div>
+    <div id="feriasGrid" class="ferias-grid"></div>
   </div>
 
   <footer>
-    Escala de Serviço HGeSM &copy; 2026<br>
+    Escala de Serviço HGeSM © 2026<br>
     Sincronizado automaticamente com Google Sheets
   </footer>
+
 </div>
 
 <script>
-// ID da sua planilha (conforme a imagem que você mandou)
-const sheetPubId = "2PACX-1vSY-50o70qUzrkbHdsexVzUf1gmb2dtx6k4lG2vw3HwaY6rfdluFtSpOyXvuSJAlnqhw9S5fPq48mXo";
+const sheetId = "10WpBBvicIuFjLiYyouYn-FKTAAm33qNDEqAPavznLNY";
 
-// Função para tratar o CSV vindo do Google
 function parseCSV(text) {
-  const lines = text.split(/\r?\n/);
-  return lines.map(line => {
-    const parts = [];
-    let current = '';
-    let inQuotes = false;
-    for (let char of line) {
-      if (char === '"') inQuotes = !inQuotes;
-      else if (char === ',' && !inQuotes) {
-        parts.push(current.trim());
-        current = '';
-      } else current += char;
-    }
-    parts.push(current.trim());
-    return parts;
-  });
+  return text
+    .split(/\r?\n/)
+    .map(line => line.split(",").map(c => c.replace(/^"|"$/g, "").trim()));
 }
 
 async function carregarDados() {
   const mes = document.getElementById("mesSelect").value;
   const escalaBody = document.getElementById("escalaBody");
   const feriasGrid = document.getElementById("feriasGrid");
-  
-  escalaBody.innerHTML = "<tr><td colspan='4' style='text-align:center'>Carregando escala...</td></tr>";
+
+  escalaBody.innerHTML = "<tr><td colspan='4'>Carregando...</td></tr>";
+  feriasGrid.innerHTML = "";
 
   try {
-    // 1. Carregar Escala do Mês Selecionado
-    const urlEscala = `https://docs.google.com/spreadsheets/d/e/${sheetPubId}/pub?output=csv&sheet=${encodeURIComponent(mes)}`;
-    const resEscala = await fetch(urlEscala);
-    const csvEscala = await resEscala.text();
-    const rows = parseCSV(csvEscala);
+    const urlEscala =
+      `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(mes)}`;
+
+    const escalaCSV = await fetch(urlEscala).then(r => r.text());
+    const escalaRows = parseCSV(escalaCSV).slice(1);
 
     escalaBody.innerHTML = "";
-    
-    // r[0]=Data, r[1]=Dia, r[3]=Militar, r[4]=Substituto
-    rows.slice(1).forEach(r => {
-      if (!r[0] || r[0].includes("DATA") || r[0] === "") return;
+
+    escalaRows.forEach(r => {
+      if (!r[0]) return;
 
       const tr = document.createElement("tr");
-      const dia = r[1] ? r[1].toUpperCase() : "";
-      
-      if (dia.includes("SÁB") || dia.includes("DOM")) {
+      if (r[1] && (r[1].includes("SÁB") || r[1].includes("DOM"))) {
         tr.classList.add("weekend");
       }
 
@@ -142,31 +204,30 @@ async function carregarDados() {
       escalaBody.appendChild(tr);
     });
 
-    // 2. Carregar Férias (sempre atualiza junto)
-    const urlFerias = `https://docs.google.com/spreadsheets/d/e/${sheetPubId}/pub?output=csv&sheet=FÉRIAS e AFASTADOS`;
-    const resFerias = await fetch(urlFerias);
-    const csvFerias = await resFerias.text();
-    const rowsFerias = parseCSV(csvFerias);
+    const urlFerias =
+      `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent("FÉRIAS e AFASTADOS")}`;
 
-    feriasGrid.innerHTML = "";
-    rowsFerias.slice(1).forEach(rf => {
-      if (!rf[0] || rf[0] === "") return;
-      
+    const feriasCSV = await fetch(urlFerias).then(r => r.text());
+    const feriasRows = parseCSV(feriasCSV).slice(1);
+
+    feriasRows.forEach(r => {
+      if (!r[0]) return;
+
       const card = document.createElement("div");
       card.className = "ferias-card";
       card.innerHTML = `
-        <strong>${rf[0]}</strong>
-        <span>${rf[2] || '?'} até ${rf[3] || '?'}</span>
+        <strong>${r[0]}</strong>
+        <span>${r[2] || "?"} até ${r[3] || "?"}</span>
       `;
       feriasGrid.appendChild(card);
     });
 
-  } catch (error) {
-    escalaBody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#f87171'>Erro ao conectar com a planilha. Verifique se ela está publicada corretamente.</td></tr>";
+  } catch (e) {
+    escalaBody.innerHTML =
+      "<tr><td colspan='4' style='color:red'>Erro ao carregar dados</td></tr>";
   }
 }
 
-// Inicia no carregamento da página
 window.onload = carregarDados;
 </script>
 
