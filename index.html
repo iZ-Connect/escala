@@ -36,6 +36,7 @@
     background: #0f172a;
     color: #f9fafb;
     border: 1px solid #334155;
+    cursor: pointer;
   }
 
   table {
@@ -57,10 +58,11 @@
     background: #0f172a;
     text-transform: uppercase;
     font-size: 13px;
+    color: #94a3b8;
   }
 
   tr.weekend {
-    background: #2a1414;
+    background: #2a1414 !important;
   }
 
   tr:hover {
@@ -68,7 +70,7 @@
   }
 
   .ferias {
-    background: #020617;
+    background: #0f172a;
     margin-top: 40px;
     padding: 20px;
     border-radius: 10px;
@@ -82,7 +84,7 @@
 
   .ferias li {
     padding: 10px;
-    border-bottom: 1px solid #0f172a;
+    border-bottom: 1px solid #1e293b;
   }
 
   footer {
@@ -93,7 +95,6 @@
   }
 </style>
 </head>
-
 <body>
 
 <div class="container">
@@ -101,18 +102,18 @@
 
   <div class="menu">
     <select id="mesSelect" onchange="carregarEscala()">
-      <option>JANEIRO</option>
-      <option>FEVEREIRO</option>
-      <option>MARÇO</option>
-      <option>ABRIL</option>
-      <option>MAIO</option>
-      <option>JUNHO</option>
-      <option>JULHO</option>
-      <option>AGOSTO</option>
-      <option>SETEMBRO</option>
-      <option>OUTUBRO</option>
-      <option>NOVEMBRO</option>
-      <option>DEZEMBRO</option>
+      <option value="JANEIRO">JANEIRO</option>
+      <option value="FEVEREIRO">FEVEREIRO</option>
+      <option value="MARÇO">MARÇO</option>
+      <option value="ABRIL">ABRIL</option>
+      <option value="MAIO">MAIO</option>
+      <option value="JUNHO">JUNHO</option>
+      <option value="JULHO">JULHO</option>
+      <option value="AGOSTO">AGOSTO</option>
+      <option value="SETEMBRO">SETEMBRO</option>
+      <option value="OUTUBRO">OUTUBRO</option>
+      <option value="NOVEMBRO">NOVEMBRO</option>
+      <option value="DEZEMBRO">DEZEMBRO</option>
     </select>
   </div>
 
@@ -125,7 +126,9 @@
         <th>Substituto</th>
       </tr>
     </thead>
-    <tbody id="escalaBody"></tbody>
+    <tbody id="escalaBody">
+      <tr><td colspan="4" style="text-align:center;">Carregando dados...</td></tr>
+    </tbody>
   </table>
 
   <div class="ferias">
@@ -134,22 +137,36 @@
   </div>
 
   <footer>
-    Sistema de Escala • Visualização pública
+    Sistema de Escala • Atualizado automaticamente via Google Sheets
   </footer>
 </div>
 
 <script>
-const sheetId = "2PACX-1vSY-50o70qUzrkbHdsexVzUf1gmb2dtx6k4lG2vw3HwaY6rfdluFtSpOyXvuSJAlnqhw9S5fPq48mXo";
+// ID CORRIGIDO conforme fornecido
+const sheetId = "10WpBBvicIuFjLiYyouYn-FKTAAm33qNDEqAPavznLNY";
 
-// ====== CSV PARSER ======
 function parseCSV(text) {
-  return text.trim().split("\n").map(l => l.split(","));
+  // Regex para lidar com possíveis vírgulas dentro de aspas
+  const lines = text.split(/\r?\n/);
+  return lines.map(line => {
+    const result = [];
+    let cur = '';
+    let inQuote = false;
+    for (let char of line) {
+      if (char === '"') inQuote = !inQuote;
+      else if (char === ',' && !inQuote) {
+        result.push(cur);
+        cur = '';
+      } else cur += char;
+    }
+    result.push(cur);
+    return result;
+  });
 }
 
-// ====== ESCALA ======
 function carregarEscala() {
   const mes = document.getElementById("mesSelect").value;
-  const url = `https://docs.google.com/spreadsheets/d/e/${sheetId}/pub?output=csv&sheet=${encodeURIComponent(mes)}`;
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(mes)}`;
 
   fetch(url)
     .then(res => res.text())
@@ -158,26 +175,41 @@ function carregarEscala() {
       const tbody = document.getElementById("escalaBody");
       tbody.innerHTML = "";
 
+      // Pula a primeira linha (cabeçalho)
       rows.slice(1).forEach(r => {
-        if (!r[0]) return;
+        // Limpa as aspas extras que o Google gera no CSV
+        const data = r[0]?.replace(/"/g, '').trim();
+        const dia = r[1]?.replace(/"/g, '').trim();
+        const militar = r[3]?.replace(/"/g, '').trim(); // Coluna D
+        const substituto = r[4]?.replace(/"/g, '').trim(); // Coluna E
+
+        if (!data || data === "" || data.toUpperCase() === "DATA") return;
 
         const tr = document.createElement("tr");
-        if (r[1] === "SÁB" || r[1] === "DOM") tr.classList.add("weekend");
+        
+        // Verifica se é fim de semana para mudar a cor
+        const diaUpper = dia.toUpperCase();
+        if (diaUpper.includes("SÁB") || diaUpper.includes("DOM")) {
+          tr.classList.add("weekend");
+        }
 
         tr.innerHTML = `
-          <td>${r[0]}</td>
-          <td>${r[1]}</td>
-          <td>${r[3] || "-"}</td>
-          <td>${r[4] || "-"}</td>
+          <td>${data}</td>
+          <td>${dia}</td>
+          <td>${militar || "-"}</td>
+          <td>${substituto || "-"}</td>
         `;
         tbody.appendChild(tr);
       });
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById("escalaBody").innerHTML = "<tr><td colspan='4'>Erro ao carregar. Verifique se a planilha está publicada.</td></tr>";
     });
 }
 
-// ====== FÉRIAS ======
 function carregarFerias() {
-  const url = `https://docs.google.com/spreadsheets/d/e/${sheetId}/pub?output=csv&sheet=FÉRIAS E AFASTADOS`;
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=FÉRIAS E AFASTADOS`;
 
   fetch(url)
     .then(res => res.text())
@@ -187,14 +219,18 @@ function carregarFerias() {
       ul.innerHTML = "";
 
       rows.slice(1).forEach(r => {
-        if (!r[0]) return;
+        const nome = r[0]?.replace(/"/g, '').trim();
+        const periodo = r[1]?.replace(/"/g, '').trim();
+        
+        if (!nome) return;
         const li = document.createElement("li");
-        li.innerHTML = `<strong>${r[0]}</strong> — ${r[1] || "Período não informado"}`;
+        li.innerHTML = `<strong>${nome}</strong> — ${periodo || "Período não informado"}`;
         ul.appendChild(li);
       });
     });
 }
 
+// Inicializa
 carregarEscala();
 carregarFerias();
 </script>
