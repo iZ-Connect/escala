@@ -130,7 +130,7 @@ footer {
 
 <div class="container">
 
-  <h1>📋 Escala de Serviço - HGeSM</h1>
+  <h1>☢️ Escala  - HGeSM</h1>
 
   <div class="menu">
     <select id="mesSelect" onchange="carregarDados()">
@@ -190,7 +190,12 @@ async function carregarDados() {
   escalaBody.innerHTML = "<tr><td colspan='4'>Carregando...</td></tr>";
   feriasGrid.innerHTML = "";
 
-  const hoje = new Date().toLocaleDateString("pt-BR");
+  const hojeDate = new Date();
+const hoje = hojeDate.toLocaleDateString("pt-BR", {
+  day: "2-digit",
+  month: "2-digit"
+});
+
 
   try {
     /* ESCALA */
