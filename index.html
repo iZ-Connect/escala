@@ -4,102 +4,24 @@
 <meta charset="UTF-8">
 <title>Escala de Serviço</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #0b1220, #020617);
-    margin: 0;
-    padding: 20px;
-    color: #e5e7eb;
-  }
-
-  h1, h2 {
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
-  .container {
-    max-width: 1100px;
-    margin: auto;
-  }
-
-  .menu {
-    text-align: center;
-    margin: 20px 0;
-  }
-
-  select {
-    padding: 10px 16px;
-    font-size: 16px;
-    border-radius: 8px;
-    background: #0f172a;
-    color: #f9fafb;
-    border: 1px solid #334155;
-    cursor: pointer;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #020617;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-  }
-
-  th, td {
-    padding: 12px;
-    border-bottom: 1px solid #0f172a;
-    text-align: left;
-  }
-
-  th {
-    background: #0f172a;
-    text-transform: uppercase;
-    font-size: 13px;
-    color: #94a3b8;
-  }
-
-  tr.weekend {
-    background: #2a1414 !important;
-  }
-
-  tr:hover {
-    background: #111827;
-  }
-
-  .ferias {
-    background: #0f172a;
-    margin-top: 40px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-  }
-
-  .ferias ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .ferias li {
-    padding: 10px;
-    border-bottom: 1px solid #1e293b;
-  }
-
-  footer {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 12px;
-    color: #94a3b8;
-  }
+  body { font-family: Arial, sans-serif; background: radial-gradient(circle at top, #0b1220, #020617); margin: 0; padding: 20px; color: #e5e7eb; }
+  .container { max-width: 1100px; margin: auto; }
+  h1, h2 { text-align: center; }
+  .menu { text-align: center; margin: 20px 0; }
+  select { padding: 10px 16px; border-radius: 8px; background: #0f172a; color: #f9fafb; border: 1px solid #334155; }
+  table { width: 100%; border-collapse: collapse; background: #020617; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+  th, td { padding: 12px; border-bottom: 1px solid #0f172a; text-align: left; }
+  th { background: #0f172a; text-transform: uppercase; font-size: 13px; color: #94a3b8; }
+  tr.weekend { background: #2a1414 !important; }
+  .ferias { background: #0f172a; margin-top: 40px; padding: 20px; border-radius: 10px; }
+  footer { text-align: center; margin-top: 30px; font-size: 12px; color: #94a3b8; }
 </style>
 </head>
 <body>
 
 <div class="container">
   <h1>📋 Escala de Serviço</h1>
-
   <div class="menu">
     <select id="mesSelect" onchange="carregarEscala()">
       <option value="JANEIRO">JANEIRO</option>
@@ -123,117 +45,83 @@
         <th>Data</th>
         <th>Dia</th>
         <th>Militar</th>
-        <th>Substituto</th>
+        <th>Substituído</th>
       </tr>
     </thead>
-    <tbody id="escalaBody">
-      <tr><td colspan="4" style="text-align:center;">Carregando dados...</td></tr>
-    </tbody>
+    <tbody id="escalaBody"></tbody>
   </table>
 
   <div class="ferias">
     <h2>🌴 Militares de Férias / Afastados</h2>
-    <ul id="listaFerias"></ul>
+    <ul id="listaFerias" style="list-style: none; padding: 0;"></ul>
   </div>
 
-  <footer>
-    Sistema de Escala • Atualizado automaticamente via Google Sheets
-  </footer>
+  <footer>Sistema de Escala • Atualizado via Google Sheets</footer>
 </div>
 
 <script>
-// ID CORRIGIDO conforme fornecido
-const sheetId = "10WpBBvicIuFjLiYyouYn-FKTAAm33qNDEqAPavznLNY";
+// ID DE PUBLICAÇÃO EXTRAÍDO DA SUA IMAGEM
+const publicId = "2PACX-1vSY-50o70qUzrkbHdsexVzUf1gmb2dtx6k4lG2vw3HwaY6rfdluFtSpOyXvuSJAlnqhw9S5fPq48mXo";
 
 function parseCSV(text) {
-  // Regex para lidar com possíveis vírgulas dentro de aspas
   const lines = text.split(/\r?\n/);
-  return lines.map(line => {
-    const result = [];
-    let cur = '';
-    let inQuote = false;
-    for (let char of line) {
-      if (char === '"') inQuote = !inQuote;
-      else if (char === ',' && !inQuote) {
-        result.push(cur);
-        cur = '';
-      } else cur += char;
-    }
-    result.push(cur);
-    return result;
-  });
+  return lines.map(line => line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
 }
 
 function carregarEscala() {
   const mes = document.getElementById("mesSelect").value;
-  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(mes)}`;
+  const url = `https://docs.google.com/spreadsheets/d/e/${publicId}/pub?output=csv&sheet=${encodeURIComponent(mes)}`;
 
   fetch(url)
     .then(res => res.text())
     .then(csv => {
+      if (csv.includes("<!DOCTYPE") || csv.length < 10) throw new Error();
       const rows = parseCSV(csv);
       const tbody = document.getElementById("escalaBody");
       tbody.innerHTML = "";
 
-      // Pula a primeira linha (cabeçalho)
       rows.slice(1).forEach(r => {
-        // Limpa as aspas extras que o Google gera no CSV
         const data = r[0]?.replace(/"/g, '').trim();
         const dia = r[1]?.replace(/"/g, '').trim();
         const militar = r[3]?.replace(/"/g, '').trim(); // Coluna D
         const substituto = r[4]?.replace(/"/g, '').trim(); // Coluna E
 
-        if (!data || data === "" || data.toUpperCase() === "DATA") return;
+        if (!data || data === "" || data.toUpperCase().includes("DATA")) return;
 
         const tr = document.createElement("tr");
-        
-        // Verifica se é fim de semana para mudar a cor
-        const diaUpper = dia.toUpperCase();
-        if (diaUpper.includes("SÁB") || diaUpper.includes("DOM")) {
+        if (dia.toUpperCase().includes("SÁB") || dia.toUpperCase().includes("DOM")) {
           tr.classList.add("weekend");
         }
 
-        tr.innerHTML = `
-          <td>${data}</td>
-          <td>${dia}</td>
-          <td>${militar || "-"}</td>
-          <td>${substituto || "-"}</td>
-        `;
+        tr.innerHTML = `<td>${data}</td><td>${dia}</td><td>${militar || "-"}</td><td>${substituto || "-"}</td>`;
         tbody.appendChild(tr);
       });
     })
-    .catch(err => {
-      console.error(err);
-      document.getElementById("escalaBody").innerHTML = "<tr><td colspan='4'>Erro ao carregar. Verifique se a planilha está publicada.</td></tr>";
+    .catch(() => {
+      document.getElementById("escalaBody").innerHTML = "<tr><td colspan='4' style='text-align:center;'>Aba '"+mes+"' não encontrada ou planilha não publicada como CSV.</td></tr>";
     });
 }
 
 function carregarFerias() {
-  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=FÉRIAS E AFASTADOS`;
-
-  fetch(url)
-    .then(res => res.text())
-    .then(csv => {
-      const rows = parseCSV(csv);
-      const ul = document.getElementById("listaFerias");
-      ul.innerHTML = "";
-
-      rows.slice(1).forEach(r => {
-        const nome = r[0]?.replace(/"/g, '').trim();
-        const periodo = r[1]?.replace(/"/g, '').trim();
-        
-        if (!nome) return;
+  const url = `https://docs.google.com/spreadsheets/d/e/${publicId}/pub?output=csv&sheet=FÉRIAS E AFASTADOS`;
+  fetch(url).then(res => res.text()).then(csv => {
+    const rows = parseCSV(csv);
+    const ul = document.getElementById("listaFerias");
+    ul.innerHTML = "";
+    rows.slice(1).forEach(r => {
+      const nome = r[0]?.replace(/"/g, '').trim();
+      if (nome) {
         const li = document.createElement("li");
-        li.innerHTML = `<strong>${nome}</strong> — ${periodo || "Período não informado"}`;
+        li.style.padding = "10px 0";
+        li.innerHTML = `<strong>${nome}</strong> — ${r[1]?.replace(/"/g, '') || "Período não informado"}`;
         ul.appendChild(li);
-      });
+      }
     });
+  });
 }
 
-// Inicializa
 carregarEscala();
 carregarFerias();
 </script>
-
 </body>
 </html>
