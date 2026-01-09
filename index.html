@@ -76,9 +76,21 @@ tr:hover {
   background: #1e293b;
 }
 
+/* Finais de semana */
 .weekend {
   background: #450a0a !important;
   color: #fecaca;
+}
+
+/* 🔆 DIA ATUAL */
+.today {
+  background: #facc15 !important;
+  color: #1e293b !important;
+  font-weight: bold;
+}
+
+.today td {
+  border-bottom: 1px solid #eab308;
 }
 
 .ferias-section {
@@ -178,7 +190,10 @@ async function carregarDados() {
   escalaBody.innerHTML = "<tr><td colspan='4'>Carregando...</td></tr>";
   feriasGrid.innerHTML = "";
 
+  const hoje = new Date().toLocaleDateString("pt-BR");
+
   try {
+    /* ESCALA */
     const urlEscala =
       `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(mes)}`;
 
@@ -191,19 +206,29 @@ async function carregarDados() {
       if (!r[0]) return;
 
       const tr = document.createElement("tr");
+
       if (r[1] && (r[1].includes("SÁB") || r[1].includes("DOM"))) {
         tr.classList.add("weekend");
+      }
+
+      let militarTexto = r[3] || "-";
+
+      if (r[0] === hoje) {
+        tr.classList.add("today");
+        militarTexto = `☢️ ${militarTexto}`;
       }
 
       tr.innerHTML = `
         <td>${r[0]}</td>
         <td>${r[1] || ""}</td>
-        <td>${r[3] || "-"}</td>
+        <td>${militarTexto}</td>
         <td>${r[4] || ""}</td>
       `;
+
       escalaBody.appendChild(tr);
     });
 
+    /* FÉRIAS */
     const urlFerias =
       `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent("FÉRIAS e AFASTADOS")}`;
 
