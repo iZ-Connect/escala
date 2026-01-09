@@ -2,26 +2,30 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Escala de Serviço</title>
+<title>Escala de Serviço - HGeSM</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body { font-family: Arial, sans-serif; background: radial-gradient(circle at top, #0b1220, #020617); margin: 0; padding: 20px; color: #e5e7eb; }
-  .container { max-width: 1100px; margin: auto; }
-  h1, h2 { text-align: center; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: radial-gradient(circle at top, #0b1220, #020617); margin: 0; padding: 20px; color: #e5e7eb; }
+  .container { max-width: 1000px; margin: auto; }
+  h1, h2 { text-align: center; color: #f8fafc; }
   .menu { text-align: center; margin: 20px 0; }
-  select { padding: 10px 16px; border-radius: 8px; background: #0f172a; color: #f9fafb; border: 1px solid #334155; }
-  table { width: 100%; border-collapse: collapse; background: #020617; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-  th, td { padding: 12px; border-bottom: 1px solid #0f172a; text-align: left; }
-  th { background: #0f172a; text-transform: uppercase; font-size: 13px; color: #94a3b8; }
-  tr.weekend { background: #2a1414 !important; }
-  .ferias { background: #0f172a; margin-top: 40px; padding: 20px; border-radius: 10px; }
-  footer { text-align: center; margin-top: 30px; font-size: 12px; color: #94a3b8; }
+  select { padding: 12px 20px; border-radius: 8px; background: #1e293b; color: #f8fafc; border: 1px solid #334155; font-size: 16px; cursor: pointer; }
+  table { width: 100%; border-collapse: collapse; background: #0f172a; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+  th, td { padding: 14px; border-bottom: 1px solid #1e293b; text-align: left; }
+  th { background: #1e293b; text-transform: uppercase; font-size: 12px; color: #94a3b8; letter-spacing: 0.05em; }
+  tr.weekend { background: #451a1a !important; } /* Cor para Sábado e Domingo */
+  tr:hover { background: #1e293b; }
+  .ferias-section { background: #0f172a; margin-top: 40px; padding: 25px; border-radius: 12px; border: 1px solid #1e293b; }
+  .ferias-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+  .ferias-item { background: #1e293b; padding: 12px; border-radius: 6px; border-left: 4px solid #3b82f6; }
+  footer { text-align: center; margin-top: 40px; font-size: 12px; color: #64748b; }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>📋 Escala de Serviço</h1>
+  <h1>📋 Escala de Serviço - HGeSM</h1>
+  
   <div class="menu">
     <select id="mesSelect" onchange="carregarEscala()">
       <option value="JANEIRO">JANEIRO</option>
@@ -36,10 +40,11 @@
       <option value="OUTUBRO">OUTUBRO</option>
       <option value="NOVEMBRO">NOVEMBRO</option>
       <option value="DEZEMBRO">DEZEMBRO</option>
+      <option value="JANEIRO ANO NOVO">JANEIRO 2026</option>
     </select>
   </div>
 
-  <table>
+  <table id="escalaTabela">
     <thead>
       <tr>
         <th>Data</th>
@@ -48,78 +53,95 @@
         <th>Substituído</th>
       </tr>
     </thead>
-    <tbody id="escalaBody"></tbody>
+    <tbody id="escalaBody">
+      </tbody>
   </table>
 
-  <div class="ferias">
-    <h2>🌴 Militares de Férias / Afastados</h2>
-    <ul id="listaFerias" style="list-style: none; padding: 0;"></ul>
+  <div class="ferias-section">
+    <h2>🌴 Militares em Férias / Afastados</h2>
+    <div id="listaFerias" class="ferias-list"></div>
   </div>
 
   <footer>Sistema de Escala • Atualizado via Google Sheets</footer>
 </div>
 
 <script>
-// ID DE PUBLICAÇÃO EXTRAÍDO DA SUA IMAGEM
+// ID da sua planilha conforme imagem enviada
 const publicId = "2PACX-1vSY-50o70qUzrkbHdsexVzUf1gmb2dtx6k4lG2vw3HwaY6rfdluFtSpOyXvuSJAlnqhw9S5fPq48mXo";
 
 function parseCSV(text) {
-  const lines = text.split(/\r?\n/);
-  return lines.map(line => line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
-}
-
-function carregarEscala() {
-  const mes = document.getElementById("mesSelect").value;
-  const url = `https://docs.google.com/spreadsheets/d/e/${publicId}/pub?output=csv&sheet=${encodeURIComponent(mes)}`;
-
-  fetch(url)
-    .then(res => res.text())
-    .then(csv => {
-      if (csv.includes("<!DOCTYPE") || csv.length < 10) throw new Error();
-      const rows = parseCSV(csv);
-      const tbody = document.getElementById("escalaBody");
-      tbody.innerHTML = "";
-
-      rows.slice(1).forEach(r => {
-        const data = r[0]?.replace(/"/g, '').trim();
-        const dia = r[1]?.replace(/"/g, '').trim();
-        const militar = r[3]?.replace(/"/g, '').trim(); // Coluna D
-        const substituto = r[4]?.replace(/"/g, '').trim(); // Coluna E
-
-        if (!data || data === "" || data.toUpperCase().includes("DATA")) return;
-
-        const tr = document.createElement("tr");
-        if (dia.toUpperCase().includes("SÁB") || dia.toUpperCase().includes("DOM")) {
-          tr.classList.add("weekend");
-        }
-
-        tr.innerHTML = `<td>${data}</td><td>${dia}</td><td>${militar || "-"}</td><td>${substituto || "-"}</td>`;
-        tbody.appendChild(tr);
-      });
-    })
-    .catch(() => {
-      document.getElementById("escalaBody").innerHTML = "<tr><td colspan='4' style='text-align:center;'>Aba '"+mes+"' não encontrada ou planilha não publicada como CSV.</td></tr>";
+    const lines = text.split(/\r?\n/);
+    return lines.map(line => {
+        // Lida com vírgulas dentro de aspas (comum em CSV do Google)
+        const matches = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+        return matches ? matches.map(m => m.replace(/^"|"$/g, '')) : line.split(',');
     });
 }
 
-function carregarFerias() {
-  const url = `https://docs.google.com/spreadsheets/d/e/${publicId}/pub?output=csv&sheet=FÉRIAS E AFASTADOS`;
-  fetch(url).then(res => res.text()).then(csv => {
-    const rows = parseCSV(csv);
-    const ul = document.getElementById("listaFerias");
-    ul.innerHTML = "";
-    rows.slice(1).forEach(r => {
-      const nome = r[0]?.replace(/"/g, '').trim();
-      if (nome) {
-        const li = document.createElement("li");
-        li.style.padding = "10px 0";
-        li.innerHTML = `<strong>${nome}</strong> — ${r[1]?.replace(/"/g, '') || "Período não informado"}`;
-        ul.appendChild(li);
-      }
-    });
-  });
+async function carregarEscala() {
+    const mes = document.getElementById("mesSelect").value;
+    const url = `https://docs.google.com/spreadsheets/d/e/${publicId}/pub?output=csv&sheet=${encodeURIComponent(mes)}`;
+    const tbody = document.getElementById("escalaBody");
+    
+    tbody.innerHTML = "<tr><td colspan='4' style='text-align:center'>Carregando dados...</td></tr>";
+
+    try {
+        const response = await fetch(url);
+        const data = await response.text();
+        const rows = parseCSV(data);
+        
+        tbody.innerHTML = "";
+        
+        // Começa da linha 1 para pular o cabeçalho
+        rows.slice(1).forEach(cols => {
+            if (cols.length < 4 || !cols[0] || cols[0].includes("DATA")) return;
+
+            const tr = document.createElement("tr");
+            const diaSemana = cols[1] ? cols[1].toUpperCase() : "";
+
+            // Destaca fins de semana conforme padrão militar
+            if (diaSemana.includes("SÁB") || diaSemana.includes("DOM")) {
+                tr.classList.add("weekend");
+            }
+
+            tr.innerHTML = `
+                <td>${cols[0]}</td>
+                <td>${cols[1]}</td>
+                <td>${cols[3] || "-"}</td>
+                <td>${cols[4] || "-"}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (error) {
+        tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#f87171'>Erro ao carregar escala. Verifique a publicação da planilha.</td></tr>";
+    }
 }
 
+async function carregarFerias() {
+    const url = `https://docs.google.com/spreadsheets/d/e/${publicId}/pub?output=csv&sheet=FÉRIAS e AFASTADOS`;
+    const container = document.getElementById("listaFerias");
+
+    try {
+        const response = await fetch(url);
+        const data = await response.text();
+        const rows = parseCSV(data);
+        
+        container.innerHTML = "";
+
+        rows.slice(1).forEach(cols => {
+            if (!cols[0] || cols[0].trim() === "") return;
+
+            const div = document.createElement("div");
+            div.className = "ferias-item";
+            div.innerHTML = `<strong>${cols[0]}</strong><br><small>Período: ${cols[2] || '?'} até ${cols[3] || '?'}</small>`;
+            container.appendChild(div);
+        });
+    } catch (e) {
+        container.innerHTML = "<p>Informações de férias indisponíveis.</p>";
+    }
+}
+
+// Inicialização
 carregarEscala();
 carregarFerias();
 </script>
