@@ -82,51 +82,45 @@ tbody tr td {
 
 /* 🔴 Finais de semana e Feriados - VERMELHO CLARINHO (Coral Pastel) */
 .weekend td {
-  background: #2a1b1b !important; /* Fundo levemente avermelhado escuro */
-  color: #ff8a8a !important;      /* Texto em tom coral claro */
-  box-shadow: 6px 6px 12px #0d0a0a, -6px -6px 12px #1f1a1a;
+  background: #e57373 !important; /* Tom de vermelho coral mais claro e vivo */
+  color: #FFFFFF !important;      /* Texto totalmente BRANCO */
+  box-shadow: 6px 6px 12px #0a0a0a, -6px -6px 12px #1f1a1a;
+  border: 2px solid transparent; /* Mantém o alinhamento com a linha 'today' */
 }
 
-/* 🔵 DIA ATUAL - Borda Neon Pulsante Completa */
+/* 🔵 DIA ATUAL - Moldura Externa Pulsante (Sem divisórias internas) */
 .today td {
   background: #121212 !important;
   box-shadow: inset 4px 4px 10px #000, inset -4px -4px 10px #1e1e1e !important;
   animation: pulseBlue 2s infinite ease-in-out;
-  /* Removemos as bordas laterais padrão de todas as células */
-  border-left: none;
-  border-right: none;
-  border-top: 2px solid #2196F3;
+  /* Removemos as bordas laterais das células do meio para não "piscar" entre colunas */
+  border-left: none !important;
+  border-right: none !important;
+  border-top: 2px solid #2196F3 !important;
   border-bottom: 2px solid #2196F3 !important;
 }
 
-/* Borda Esquerda (Apenas na primeira célula da linha) */
+/* Borda Esquerda da Moldura */
 .today td:first-child { 
   border-left: 5px solid #2196F3 !important;
   border-radius: 15px 0 0 15px;
 }
 
-/* Borda Direita (Apenas na última célula da linha) */
+/* Borda Direita da Moldura */
 .today td:last-child { 
   border-right: 2px solid #2196F3 !important;
   border-radius: 0 15px 15px 0;
 }
 
-/* 🔴 Finais de semana e Feriados (Vermelho mais claro/Vivo) */
-.weekend td {
-  background: #3d2626 !important; /* Fundo levemente mais claro */
-  color: #ff9999 !important;      /* Texto coral bem nítido */
-  box-shadow: 6px 6px 12px #0a0a0a, -6px -6px 12px #221a1a;
-}
-
-/* Animação que afeta apenas a cor da borda, sem brilho interno nas divisórias */
+/* Animação de Pulsação da Borda */
 @keyframes pulseBlue {
   0% {
     border-color: rgba(33, 150, 243, 0.2);
   }
   50% {
     border-color: rgba(33, 150, 243, 1);
-    /* O brilho (glow) agora é aplicado apenas para fora do card */
-    box-shadow: 0 0 15px rgba(33, 150, 243, 0.3), inset 4px 4px 10px #000;
+    /* O brilho externo (glow) expande para fora do card */
+    box-shadow: 0 0 15px rgba(33, 150, 243, 0.4), inset 4px 4px 10px #000;
   }
   100% {
     border-color: rgba(33, 150, 243, 0.2);
