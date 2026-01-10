@@ -222,21 +222,28 @@ async function carregarDados() {
       if (!r[0] || r[0].includes("DATA")) return;
 
       const tr = document.createElement("tr");
-      const diaSemana = r[1] || "";
-      const isFeriado = ["TRUE", "SIM", "✔", "X", "1"].includes((r[2] || "").toUpperCase());
-      const isWeekend = diaSemana.includes("SÁB") || diaSemana.includes("DOM");
+      const dataCell = r[0];
+      
+      // Normalização para detectar sábado e domingo independente de acento ou letra maiúscula
+      const diaSemana = (r[1] || "").toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      const feriado = (r[2] || "").toUpperCase();
 
-      if (isWeekend || isFeriado) tr.classList.add("weekend");
+      const isWeekend = diaSemana.includes("SAB") || diaSemana.includes("DOM");
+      const isFeriado = ["TRUE", "SIM", "✔", "X", "1"].includes(feriado);
+
+      if (isWeekend || isFeriado) {
+        tr.classList.add("weekend");
+      }
 
       let militarTexto = r[3] || "-";
-      if (r[0].includes(hojeBR) || r[0] === hojeISO) {
+      if (dataCell.includes(hojeBR) || dataCell === hojeISO) {
         tr.classList.add("today");
         militarTexto = `☢️ ${militarTexto}`;
       }
 
       tr.innerHTML = `
         <td>${r[0]}</td>
-        <td>${diaSemana}</td>
+        <td>${r[1] || ""}</td>
         <td style="font-weight: 600;">${militarTexto}</td>
         <td>${r[4] || ""}</td>
       `;
