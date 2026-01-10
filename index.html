@@ -6,19 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* 🌑 NEUMORPHISM BLACK DESIGN SYSTEM
-   Fundo: #121212
-   Sombra Escura: #0a0a0a
-   Sombra Clara: #1a1a1a
-   Destaque Azul: #2196F3
-*/
-
 body {
-  font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background: #121212; 
   margin: 0;
   padding: 15px;
-  color: #e0e0e0;
+  color: #FFFFFF;
   min-height: 100vh;
 }
 
@@ -29,117 +22,123 @@ body {
 
 h1 {
   text-align: center;
-  color: #2196F3;
-  font-size: 26px;
-  margin-bottom: 30px;
+  color: #2196F3; 
+  font-size: 24px;
+  margin-bottom: 20px;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+}
+
+h2 {
+  color: #2196F3;
+  font-size: 18px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  margin-top: 30px;
 }
 
 .menu {
   text-align: center;
-  margin-bottom: 35px;
+  margin-bottom: 25px;
 }
 
 select {
-  padding: 15px 25px;
-  border-radius: 15px;
-  background: #121212;
+  padding: 12px 20px;
+  border-radius: 6px;
+  background: #1E1E1E;
   color: #FFFFFF;
-  border: none;
+  border: 1px solid #2196F3;
   font-size: 16px;
-  box-shadow: 6px 6px 12px #0a0a0a, -6px -6px 12px #1a1a1a;
   cursor: pointer;
+  width: 100%;
+  max-width: 300px;
 }
 
 table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 15px;
+  border-spacing: 0 4px; 
+  background: transparent;
 }
 
 th {
-  padding: 10px 20px;
+  background: #121212;
+  padding: 12px;
   text-align: left;
   text-transform: uppercase;
-  font-size: 11px;
-  color: #666;
+  font-size: 12px;
+  color: #999;
+  font-weight: bold;
 }
 
 td {
-  padding: 18px 20px;
-  background: #121212;
-  color: #FFFFFF;
-  border: 2px solid transparent; /* Reserva espaço para a borda da animação */
+  padding: 15px;
+  background: #1E1E1E;
 }
 
-tr td:first-child { border-radius: 15px 0 0 15px; }
-tr td:last-child { border-radius: 0 15px 15px 0; }
+/* Arredondar cantos das linhas */
+td:first-child { border-radius: 8px 0 0 8px; }
+td:last-child { border-radius: 0 8px 8px 0; }
 
-tbody tr td {
-  box-shadow: 6px 6px 12px #0a0a0a, -6px -6px 12px #1a1a1a;
+tr:hover td {
+  background: #252525;
 }
 
-/* 🔴 Finais de semana e Feriados - VERMELHO CLARINHO (Coral Pastel) */
+/* 🔴 Finais de semana e feriados (Vermelho Clarinho) */
 .weekend td {
-  background: #e57373 !important; /* Tom de vermelho coral mais claro e vivo */
-  color: #FFFFFF !important;      /* Texto totalmente BRANCO */
-  box-shadow: 6px 6px 12px #0a0a0a, -6px -6px 12px #1f1a1a;
-  border: 2px solid transparent; /* Mantém o alinhamento com a linha 'today' */
+  background: #7a3e3e !important; 
+  color: #FFFFFF !important;
 }
 
-/* 🔵 DIA ATUAL - Moldura Externa Pulsante (Sem divisórias internas) */
+/* 🔵 DIA ATUAL (Borda azul e destaque) */
 .today td {
-  background: #121212 !important;
-  box-shadow: inset 4px 4px 10px #000, inset -4px -4px 10px #1e1e1e !important;
-  animation: pulseBlue 2s infinite ease-in-out;
-  /* Removemos as bordas laterais das células do meio para não "piscar" entre colunas */
-  border-left: none !important;
-  border-right: none !important;
   border-top: 2px solid #2196F3 !important;
   border-bottom: 2px solid #2196F3 !important;
 }
 
-/* Borda Esquerda da Moldura */
 .today td:first-child { 
   border-left: 5px solid #2196F3 !important;
-  border-radius: 15px 0 0 15px;
 }
 
-/* Borda Direita da Moldura */
 .today td:last-child { 
   border-right: 2px solid #2196F3 !important;
-  border-radius: 0 15px 15px 0;
 }
 
-/* Animação de Pulsação da Borda */
-@keyframes pulseBlue {
-  0% {
-    border-color: rgba(33, 150, 243, 0.2);
-  }
-  50% {
-    border-color: rgba(33, 150, 243, 1);
-    /* O brilho externo (glow) expande para fora do card */
-    box-shadow: 0 0 15px rgba(33, 150, 243, 0.4), inset 4px 4px 10px #000;
-  }
-  100% {
-    border-color: rgba(33, 150, 243, 0.2);
-  }
+.ferias-section {
+  margin-top: 40px;
+}
+
+.ferias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin-top: 15px;
 }
 
 .ferias-card {
-  background: #121212;
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 8px 8px 16px #0a0a0a, -8px -8px 16px #1a1a1a;
+  background: #1E1E1E;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #2196F3;
+}
+
+.ferias-card strong {
+  color: #2196F3;
+  font-size: 16px;
+}
+
+.ferias-card span {
+  color: #BBB;
+  font-size: 14px;
 }
 
 footer {
   text-align: center;
-  margin-top: 80px;
-  padding: 30px;
-  font-size: 10px;
-  color: #444;
+  margin-top: 60px;
+  padding: 20px;
+  font-size: 11px;
+  color: #555;
+  border-top: 1px solid #222;
 }
 </style>
 </head>
@@ -185,7 +184,7 @@ footer {
 
   <footer>
     Escala de Serviço HGeSM © 2026<br>
-    Design Neumorphic por Ezequiel Fagundes
+    Desenvolvido por Ezequiel Fagundes
   </footer>
 </div>
 
@@ -203,13 +202,16 @@ async function carregarDados() {
   const escalaBody = document.getElementById("escalaBody");
   const feriasGrid = document.getElementById("feriasGrid");
 
-  escalaBody.innerHTML = "<tr><td colspan='4' style='text-align:center; box-shadow:none'>Carregando...</td></tr>";
+  escalaBody.innerHTML = "<tr><td colspan='4' style='text-align:center'>Buscando dados...</td></tr>";
   feriasGrid.innerHTML = "";
 
   const dataAtual = new Date();
   const diaH = String(dataAtual.getDate()).padStart(2, '0');
   const mesH = String(dataAtual.getMonth() + 1).padStart(2, '0');
+  
+  // Criamos dois formatos para garantir que o "Hoje" funcione
   const hojeBR = `${diaH}/${mesH}`; 
+  const hojeISO = `${dataAtual.getFullYear()}-${mesH}-${diaH}`;
 
   try {
     const urlEscala = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(mes)}`;
@@ -222,14 +224,21 @@ async function carregarDados() {
       if (!r[0] || r[0].includes("DATA")) return;
 
       const tr = document.createElement("tr");
+      const dataCell = r[0];
       const diaSemana = r[1] || "";
-      const isFimDeSemana = diaSemana.includes("SÁB") || diaSemana.includes("DOM");
-      const isFeriado = ["TRUE", "SIM", "✔", "X", "1"].includes((r[2] || "").toUpperCase());
+      const feriado = (r[2] || "").toUpperCase();
 
-      if (isFimDeSemana || isFeriado) tr.classList.add("weekend");
+      const isFimDeSemana = diaSemana.includes("SÁB") || diaSemana.includes("DOM");
+      const isFeriado = ["TRUE", "SIM", "✔", "X", "1"].includes(feriado);
+
+      if (isFimDeSemana || isFeriado) {
+        tr.classList.add("weekend");
+      }
 
       let militarTexto = r[3] || "-";
-      if (r[0].includes(hojeBR)) {
+
+      // Lógica aprimorada para detectar o dia de hoje
+      if (dataCell.includes(hojeBR) || dataCell === hojeISO) {
         tr.classList.add("today");
         militarTexto = `☢️ ${militarTexto}`;
       }
@@ -237,7 +246,7 @@ async function carregarDados() {
       tr.innerHTML = `
         <td>${r[0]}</td>
         <td>${diaSemana}</td>
-        <td style="font-weight: 600;">${militarTexto}</td>
+        <td style="color: #FFFFFF; font-weight: 600;">${militarTexto}</td>
         <td>${r[4] || ""}</td>
       `;
       escalaBody.appendChild(tr);
@@ -251,12 +260,12 @@ async function carregarDados() {
       if (!r[0]) return;
       const card = document.createElement("div");
       card.className = "ferias-card";
-      card.innerHTML = `<strong>${r[0]}</strong><span>${r[2] || "?"} até ${r[3] || "?"}</span>`;
+      card.innerHTML = `<strong>${r[0]}</strong><br><span>${r[2] || "?"} até ${r[3] || "?"}</span>`;
       feriasGrid.appendChild(card);
     });
 
   } catch (e) {
-    escalaBody.innerHTML = "<tr><td colspan='4' style='color:red'>Erro ao carregar dados</td></tr>";
+    escalaBody.innerHTML = "<tr><td colspan='4' style='color:#ff5555; text-align:center'>Erro ao carregar escala. Verifique a conexão.</td></tr>";
   }
 }
 
