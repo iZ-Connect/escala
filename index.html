@@ -90,34 +90,46 @@ tbody tr td {
 /* 🔵 DIA ATUAL - Borda Neon Pulsante Completa */
 .today td {
   background: #121212 !important;
-  /* Força a borda em todos os lados */
-  border-top: 2px solid #2196F3 !important;
-  border-bottom: 2px solid #2196F3 !important;
-  animation: pulseBlue 2s infinite ease-in-out;
   box-shadow: inset 4px 4px 10px #000, inset -4px -4px 10px #1e1e1e !important;
+  animation: pulseBlue 2s infinite ease-in-out;
+  /* Removemos as bordas laterais padrão de todas as células */
+  border-left: none;
+  border-right: none;
+  border-top: 2px solid #2196F3;
+  border-bottom: 2px solid #2196F3 !important;
 }
 
+/* Borda Esquerda (Apenas na primeira célula da linha) */
 .today td:first-child { 
-  border-left: 5px solid #2196F3 !important; 
+  border-left: 5px solid #2196F3 !important;
+  border-radius: 15px 0 0 15px;
 }
 
+/* Borda Direita (Apenas na última célula da linha) */
 .today td:last-child { 
-  border-right: 2px solid #2196F3 !important; 
+  border-right: 2px solid #2196F3 !important;
+  border-radius: 0 15px 15px 0;
 }
 
-/* Animação suave de brilho */
+/* 🔴 Finais de semana e Feriados (Vermelho mais claro/Vivo) */
+.weekend td {
+  background: #3d2626 !important; /* Fundo levemente mais claro */
+  color: #ff9999 !important;      /* Texto coral bem nítido */
+  box-shadow: 6px 6px 12px #0a0a0a, -6px -6px 12px #221a1a;
+}
+
+/* Animação que afeta apenas a cor da borda, sem brilho interno nas divisórias */
 @keyframes pulseBlue {
   0% {
     border-color: rgba(33, 150, 243, 0.2);
-    box-shadow: 0 0 5px rgba(33, 150, 243, 0.1), inset 4px 4px 10px #000;
   }
   50% {
     border-color: rgba(33, 150, 243, 1);
-    box-shadow: 0 0 15px rgba(33, 150, 243, 0.4), inset 4px 4px 10px #000;
+    /* O brilho (glow) agora é aplicado apenas para fora do card */
+    box-shadow: 0 0 15px rgba(33, 150, 243, 0.3), inset 4px 4px 10px #000;
   }
   100% {
     border-color: rgba(33, 150, 243, 0.2);
-    box-shadow: 0 0 5px rgba(33, 150, 243, 0.1), inset 4px 4px 10px #000;
   }
 }
 
