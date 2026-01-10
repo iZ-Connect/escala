@@ -100,9 +100,12 @@ tr:hover td {
 
 /* 🟡 DIA ATUAL (Destaque Amarelo do App) */
 .today td {
-  background: #FFD700 !important;
-  color: #000000 !important;
-  font-weight: bold;
+  border-top: 1px solid #2196F3;
+  border-bottom: 1px solid #2196F3 !important;
+}
+
+.today td:first-child { 
+  border-left: 5px solid #2196F3;
 }
 
 .today td:first-child { border-left: 5px solid #2196F3; }
@@ -232,20 +235,23 @@ async function carregarDados() {
       const isFimDeSemana = diaSemana.includes("SÁB") || diaSemana.includes("DOM");
       const isFeriado = ["TRUE", "SIM", "✔", "X", "1"].includes(feriado);
 
+      // Aplica cor de fim de semana/feriado
       if (isFimDeSemana || isFeriado) {
         tr.classList.add("weekend");
       }
 
-      // Verificação de "Hoje"
-      // Se na sua planilha a data está em formato 2026-01-10, o script ajusta:
+      let militarTexto = r[3] || "-";
+
+      // Verifica se é HOJE para adicionar o símbolo
       if (dataCell.includes(hojeFormatado) || dataCell === hojeFormatado) {
-        tr.className = "today";
+        tr.classList.add("today"); // Mantém a classe para a borda azul
+        militarTexto = `☢️ ${militarTexto}`; // Adiciona o símbolo
       }
 
       tr.innerHTML = `
         <td>${r[0]}</td>
         <td>${diaSemana}</td>
-        <td>${r[3] || "-"}</td>
+        <td style="color: #FFFFFF; font-weight: 500;">${militarTexto}</td>
         <td>${r[4] || ""}</td>
       `;
       escalaBody.appendChild(tr);
