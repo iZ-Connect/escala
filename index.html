@@ -103,7 +103,30 @@ tbody tr td {
 /* 🔵 DIA ATUAL (Efeito de Botão Pressionado/Afundado) */
 .today td {
   background: #121212 !important;
+  /* A animação 'pulseBlue' vai durar 3 segundos e repetir para sempre */
+  animation: pulseBlue 3s infinite ease-in-out;
   box-shadow: inset 4px 4px 10px #000, inset -4px -4px 10px #1e1e1e !important;
+  border-top: 2px solid rgba(33, 150, 243, 0.3);
+  border-bottom: 2px solid rgba(33, 150, 243, 0.3) !important;
+}
+
+.today td:first-child { 
+  border-left: 5px solid #2196F3 !important; 
+}
+
+/* Definição da animação de piscar lento */
+@keyframes pulseBlue {
+  0% {
+    border-color: rgba(33, 150, 243, 0.2);
+    box-shadow: inset 4px 4px 10px #000, inset -4px -4px 10px #1e1e1e, 0 0 5px rgba(33, 150, 243, 0.1);
+  }
+  50% {
+    border-color: rgba(33, 150, 243, 0.8); /* Brilho mais forte no meio do ciclo */
+    box-shadow: inset 4px 4px 10px #000, inset -4px -4px 10px #1e1e1e, 0 0 15px rgba(33, 150, 243, 0.4);
+  }
+  100% {
+    border-color: rgba(33, 150, 243, 0.2);
+    box-shadow: inset 4px 4px 10px #000, inset -4px -4px 10px #1e1e1e, 0 0 5px rgba(33, 150, 243, 0.1);
 }
 
 .today td:first-child {
