@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* 🌑 NEUMORPHISM BLACK - VERSÃO REFINADA */
+/* 🌑 NEUMORPHISM BLACK - DESIGN ESTÁTICO */
 body {
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background: #121212; 
@@ -48,11 +48,11 @@ select {
   outline: none;
 }
 
-/* 📊 TABELA LINHA POR LINHA */
+/* 📊 TABELA ESTRUTURADA */
 table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 6px; /* Espaçamento entre as linhas */
+  border-spacing: 0 6px; 
 }
 
 th {
@@ -68,12 +68,13 @@ td {
   padding: 14px 8px;
   background: #1e1e1e;
   font-size: 14px;
-  border: 2px solid transparent; /* Reserva para a borda do dia atual */
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
 }
 
 /* Arredondamento das pontas das linhas */
-td:first-child { border-radius: 10px 0 0 10px; padding-left: 15px; }
-td:last-child { border-radius: 0 10px 10px 0; padding-right: 15px; }
+td:first-child { border-radius: 10px 0 0 10px; padding-left: 15px; border-left: 2px solid transparent; }
+td:last-child { border-radius: 0 10px 10px 0; padding-right: 15px; border-right: 2px solid transparent; }
 
 /* 🔴 Finais de semana e feriados - Vermelho #800000 */
 .weekend td {
@@ -82,12 +83,11 @@ td:last-child { border-radius: 0 10px 10px 0; padding-right: 15px; }
   box-shadow: 4px 4px 8px #0a0a0a;
 }
 
-/* 🔵 DIA ATUAL - Moldura Pulsante */
+/* 🔵 DIA ATUAL - Moldura Azul Sólida (Sem animação) */
 .today td {
   background: #1e1e1e !important;
   border-top: 2px solid #2196F3 !important;
   border-bottom: 2px solid #2196F3 !important;
-  animation: pulseBlue 2s infinite ease-in-out;
   box-shadow: inset 4px 4px 10px #000 !important;
 }
 
@@ -99,21 +99,16 @@ td:last-child { border-radius: 0 10px 10px 0; padding-right: 15px; }
   border-right: 2px solid #2196F3 !important; 
 }
 
-@keyframes pulseBlue {
-  0% { border-color: rgba(33, 150, 243, 0.3); }
-  50% { border-color: rgba(33, 150, 243, 1); }
-  100% { border-color: rgba(33, 150, 243, 0.3); }
-}
-
-/* 📱 AJUSTES PARA CELULAR */
+/* Responsividade para Celular */
 @media (max-width: 480px) {
   td, th {
-    padding: 10px 5px;
-    font-size: 12px; /* Diminui um pouco a fonte para caber tudo */
+    padding: 12px 5px;
+    font-size: 12px;
   }
   h1 { font-size: 18px; }
 }
 
+/* Férias */
 .ferias-section h2 {
   color: #2196F3;
   font-size: 18px;
@@ -193,6 +188,7 @@ footer {
 </div>
 
 <script>
+// Script original mantido para conexão com o Google Sheets
 const sheetId = "10WpBBvicIuFjLiYyouYn-FKTAAm33qNDEqAPavznLNY";
 
 function parseCSV(text) {
