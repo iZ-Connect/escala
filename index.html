@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* 🌑 NEUMORPHISM BLACK - DESIGN ESTÁTICO */
+/* 🌑 NEUMORPHISM BLACK - DESIGN ESTÁTICO FINAL */
 body {
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background: #121212; 
@@ -83,12 +83,11 @@ td:last-child { border-radius: 0 10px 10px 0; padding-right: 15px; border-right:
   box-shadow: 4px 4px 8px #0a0a0a;
 }
 
-/* 🔵 DIA ATUAL - Moldura Azul Sólida (Sem animação) */
+/* 🔵 DIA ATUAL - Moldura Azul Sólida */
 .today td {
-  background: #1e1e1e !important;
   border-top: 2px solid #2196F3 !important;
   border-bottom: 2px solid #2196F3 !important;
-  box-shadow: inset 4px 4px 10px #000 !important;
+  box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5) !important;
 }
 
 .today td:first-child { 
@@ -188,7 +187,6 @@ footer {
 </div>
 
 <script>
-// Script original mantido para conexão com o Google Sheets
 const sheetId = "10WpBBvicIuFjLiYyouYn-FKTAAm33qNDEqAPavznLNY";
 
 function parseCSV(text) {
@@ -224,12 +222,17 @@ async function carregarDados() {
       const tr = document.createElement("tr");
       const dataCell = r[0];
       
-      // Normalização para detectar sábado e domingo independente de acento ou letra maiúscula
-      const diaSemana = (r[1] || "").toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      const feriado = (r[2] || "").toUpperCase();
+      // Limpeza de texto robusta: remove acentos, espaços e converte para maiúsculo
+      const diaSemanaLimpo = (r[1] || "")
+        .trim()
+        .toUpperCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      
+      const feriadoVal = (r[2] || "").trim().toUpperCase();
 
-      const isWeekend = diaSemana.includes("SAB") || diaSemana.includes("DOM");
-      const isFeriado = ["TRUE", "SIM", "✔", "X", "1"].includes(feriado);
+      const isWeekend = diaSemanaLimpo.includes("SAB") || diaSemanaLimpo.includes("DOM");
+      const isFeriado = ["TRUE", "SIM", "✔", "X", "1", "FERIADO"].includes(feriadoVal);
 
       if (isWeekend || isFeriado) {
         tr.classList.add("weekend");
