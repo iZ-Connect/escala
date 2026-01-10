@@ -34,7 +34,6 @@ h1 {
   margin-bottom: 30px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .menu {
@@ -42,7 +41,6 @@ h1 {
   margin-bottom: 35px;
 }
 
-/* Dropdown Neumórfico */
 select {
   padding: 15px 25px;
   border-radius: 15px;
@@ -50,22 +48,14 @@ select {
   color: #FFFFFF;
   border: none;
   font-size: 16px;
-  outline: none;
-  width: 100%;
-  max-width: 320px;
   box-shadow: 6px 6px 12px #0a0a0a, -6px -6px 12px #1a1a1a;
   cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-select:active {
-  box-shadow: inset 4px 4px 8px #0a0a0a, inset -4px -4px 8px #1a1a1a;
 }
 
 table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 15px; /* Espaço para o efeito de elevação */
+  border-spacing: 0 15px;
 }
 
 th {
@@ -74,16 +64,13 @@ th {
   text-transform: uppercase;
   font-size: 11px;
   color: #666;
-  letter-spacing: 1px;
 }
 
-/* Linhas Neumórficas (Cards elevados) */
 td {
   padding: 18px 20px;
   background: #121212;
-  border: none;
   color: #FFFFFF;
-  transition: transform 0.2s;
+  border: 2px solid transparent; /* Reserva espaço para a borda da animação */
 }
 
 tr td:first-child { border-radius: 15px 0 0 15px; }
@@ -93,71 +80,52 @@ tbody tr td {
   box-shadow: 6px 6px 12px #0a0a0a, -6px -6px 12px #1a1a1a;
 }
 
-/* 🔴 Finais de semana (Neumorphism com tom avermelhado) */
+/* 🔴 Finais de semana e Feriados - VERMELHO CLARINHO (Coral Pastel) */
 .weekend td {
-  background: #1a1212 !important; /* Um "preto avermelhado" muito sutil */
-  color: #ff9999 !important;
-  box-shadow: 6px 6px 12px #0a0505, -6px -6px 12px #251a1a;
+  background: #2a1b1b !important; /* Fundo levemente avermelhado escuro */
+  color: #ff8a8a !important;      /* Texto em tom coral claro */
+  box-shadow: 6px 6px 12px #0d0a0a, -6px -6px 12px #1f1a1a;
 }
 
-/* 🔵 DIA ATUAL (Efeito de Botão Pressionado/Afundado) */
+/* 🔵 DIA ATUAL - Borda Neon Pulsante Completa */
 .today td {
   background: #121212 !important;
-  /* A animação 'pulseBlue' vai durar 3 segundos e repetir para sempre */
-  animation: pulseBlue 3s infinite ease-in-out;
+  /* Força a borda em todos os lados */
+  border-top: 2px solid #2196F3 !important;
+  border-bottom: 2px solid #2196F3 !important;
+  animation: pulseBlue 2s infinite ease-in-out;
   box-shadow: inset 4px 4px 10px #000, inset -4px -4px 10px #1e1e1e !important;
-  border-top: 2px solid rgba(33, 150, 243, 0.3);
-  border-bottom: 2px solid rgba(33, 150, 243, 0.3) !important;
 }
 
 .today td:first-child { 
   border-left: 5px solid #2196F3 !important; 
 }
 
-/* Definição da animação de piscar lento */
+.today td:last-child { 
+  border-right: 2px solid #2196F3 !important; 
+}
+
+/* Animação suave de brilho */
 @keyframes pulseBlue {
   0% {
     border-color: rgba(33, 150, 243, 0.2);
-    box-shadow: inset 4px 4px 10px #000, inset -4px -4px 10px #1e1e1e, 0 0 5px rgba(33, 150, 243, 0.1);
+    box-shadow: 0 0 5px rgba(33, 150, 243, 0.1), inset 4px 4px 10px #000;
   }
   50% {
-    border-color: rgba(33, 150, 243, 0.8); /* Brilho mais forte no meio do ciclo */
-    box-shadow: inset 4px 4px 10px #000, inset -4px -4px 10px #1e1e1e, 0 0 15px rgba(33, 150, 243, 0.4);
+    border-color: rgba(33, 150, 243, 1);
+    box-shadow: 0 0 15px rgba(33, 150, 243, 0.4), inset 4px 4px 10px #000;
   }
   100% {
     border-color: rgba(33, 150, 243, 0.2);
-    box-shadow: inset 4px 4px 10px #000, inset -4px -4px 10px #1e1e1e, 0 0 5px rgba(33, 150, 243, 0.1);
+    box-shadow: 0 0 5px rgba(33, 150, 243, 0.1), inset 4px 4px 10px #000;
+  }
 }
 
-.today td:first-child {
-  border-left: 3px solid #2196F3;
-}
-
-.ferias-section h2 {
-  color: #2196F3;
-  font-size: 18px;
-  margin-top: 50px;
-}
-
-.ferias-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-/* Card de Férias Neumórfico */
 .ferias-card {
   background: #121212;
   padding: 20px;
   border-radius: 20px;
   box-shadow: 8px 8px 16px #0a0a0a, -8px -8px 16px #1a1a1a;
-}
-
-.ferias-card strong {
-  color: #2196F3;
-  display: block;
-  margin-bottom: 5px;
 }
 
 footer {
