@@ -3,142 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <title>Escala - HGeSM</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* 🌑 DESIGN NEUMORPHIC MOBILE OPTIMIZED */
+/* 🌑 NEUMORPHISM BLACK - VERSÃO REFINADA */
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background: #121212; 
   margin: 0;
   padding: 10px;
   color: #FFFFFF;
-  -webkit-tap-highlight-color: transparent; /* Remove brilho de clique no mobile */
+  min-height: 100vh;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: auto;
 }
 
 h1 {
   text-align: center;
-  color: #2196F3;
-  font-size: 1.5rem;
-  margin: 15px 0;
+  color: #2196F3; 
+  font-size: 22px;
+  margin: 20px 0;
+  text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .menu {
+  text-align: center;
   margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
 }
 
-/* Dropdown estilo Mobile Neumorphism */
 select {
-  padding: 15px;
-  border-radius: 12px;
-  background: #121212;
+  padding: 12px 15px;
+  border-radius: 10px;
+  background: #1e1e1e;
   color: #FFFFFF;
-  border: none;
+  border: 1px solid #2196F3;
   font-size: 16px;
   width: 100%;
-  max-width: 400px;
-  box-shadow: 5px 5px 10px #0a0a0a, -5px -5px 10px #1a1a1a;
-  appearance: none; /* Remove seta padrão */
-  text-align: center;
+  max-width: 300px;
+  box-shadow: 4px 4px 8px #0a0a0a, -4px -4px 8px #1a1a1a;
+  outline: none;
 }
 
-/* 📱 ESTRUTURA DA TABELA RESPONSIVA */
+/* 📊 TABELA LINHA POR LINHA */
 table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 12px;
+  border-spacing: 0 6px; /* Espaçamento entre as linhas */
 }
 
-thead {
-  display: none; /* Esconde cabeçalho no mobile para virar cards */
-}
-
-tr {
-  display: flex;
-  flex-direction: column; /* Transforma linha em bloco vertical */
-  background: #121212;
-  border-radius: 15px;
-  padding: 10px;
-  box-shadow: 6px 6px 12px #0a0a0a, -6px -6px 12px #1a1a1a;
-  border: 2px solid transparent;
-  margin-bottom: 5px;
+th {
+  padding: 12px 8px;
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: #777;
+  font-weight: bold;
 }
 
 td {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 12px;
-  background: transparent !important;
-  border: none !important;
+  padding: 14px 8px;
+  background: #1e1e1e;
+  font-size: 14px;
+  border: 2px solid transparent; /* Reserva para a borda do dia atual */
 }
 
-/* Adiciona legendas automáticas para cada dado no card */
-td:nth-of-type(1):before { content: "📅 Data:"; color: #999; font-size: 12px; }
-td:nth-of-type(2):before { content: "🗓️ Dia:"; color: #999; font-size: 12px; }
-td:nth-of-type(3):before { content: "🎖️ Militar:"; color: #999; font-size: 12px; }
-td:nth-of-type(4):before { content: "🔄 Substituto:"; color: #999; font-size: 12px; }
+/* Arredondamento das pontas das linhas */
+td:first-child { border-radius: 10px 0 0 10px; padding-left: 15px; }
+td:last-child { border-radius: 0 10px 10px 0; padding-right: 15px; }
 
-/* 🔴 FINAIS DE SEMANA E FERIADOS */
-.weekend {
-  background: #e57373 !important; /* Vermelho que você pediu */
-  box-shadow: 6px 6px 12px #0a0a0a;
-}
-.weekend td, .weekend td:before {
-  color: #FFFFFF !important; /* Letras Brancas */
+/* 🔴 Finais de semana e feriados - Vermelho #800000 */
+.weekend td {
+  background: #800000 !important; 
+  color: #FFFFFF !important;
+  box-shadow: 4px 4px 8px #0a0a0a;
 }
 
-/* 🔵 DIA ATUAL - MOLDURA PULSANTE MOBILE */
-.today {
-  animation: pulseBlueMobile 2s infinite ease-in-out;
-  box-shadow: inset 4px 4px 10px #000, inset -4px -4px 10px #1e1e1e !important;
+/* 🔵 DIA ATUAL - Moldura Pulsante */
+.today td {
+  background: #1e1e1e !important;
+  border-top: 2px solid #2196F3 !important;
+  border-bottom: 2px solid #2196F3 !important;
+  animation: pulseBlue 2s infinite ease-in-out;
+  box-shadow: inset 4px 4px 10px #000 !important;
 }
 
-@keyframes pulseBlueMobile {
-  0% { border-color: rgba(33, 150, 243, 0.2); }
-  50% { border-color: rgba(33, 150, 243, 1); box-shadow: 0 0 15px rgba(33, 150, 243, 0.3); }
-  100% { border-color: rgba(33, 150, 243, 0.2); }
+.today td:first-child { 
+  border-left: 5px solid #2196F3 !important; 
 }
 
-/* 🌴 SEÇÃO DE FÉRIAS */
+.today td:last-child { 
+  border-right: 2px solid #2196F3 !important; 
+}
+
+@keyframes pulseBlue {
+  0% { border-color: rgba(33, 150, 243, 0.3); }
+  50% { border-color: rgba(33, 150, 243, 1); }
+  100% { border-color: rgba(33, 150, 243, 0.3); }
+}
+
+/* 📱 AJUSTES PARA CELULAR */
+@media (max-width: 480px) {
+  td, th {
+    padding: 10px 5px;
+    font-size: 12px; /* Diminui um pouco a fonte para caber tudo */
+  }
+  h1 { font-size: 18px; }
+}
+
+.ferias-section h2 {
+  color: #2196F3;
+  font-size: 18px;
+  margin-top: 40px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 8px;
+}
+
 .ferias-grid {
   display: grid;
-  grid-template-columns: 1fr; /* Coluna única no mobile */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 15px;
+  margin-top: 15px;
 }
 
 .ferias-card {
-  background: #121212;
+  background: #1e1e1e;
   padding: 15px;
-  border-radius: 15px;
-  box-shadow: 5px 5px 10px #0a0a0a, -5px -5px 10px #1a1a1a;
+  border-radius: 10px;
   border-left: 4px solid #2196F3;
+  box-shadow: 4px 4px 8px #0a0a0a, -4px -4px 8px #1a1a1a;
 }
 
 footer {
   text-align: center;
-  padding: 30px;
+  margin-top: 50px;
+  padding: 20px;
   font-size: 11px;
-  color: #555;
-}
-
-/* Ajuste para tablets e computadores */
-@media (min-width: 600px) {
-  thead { display: table-header-group; }
-  tr { display: table-row; }
-  td { display: table-cell; text-align: left; }
-  td:before { display: none; }
-  .ferias-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+  color: #444;
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -180,12 +188,11 @@ footer {
 
   <footer>
     Escala de Serviço HGeSM © 2026<br>
-    Otimizado para Mobile por Ezequiel Fagundes
+    Design por Ezequiel Fagundes
   </footer>
 </div>
 
 <script>
-// Mantendo a sua lógica original do Script que já funciona bem
 const sheetId = "10WpBBvicIuFjLiYyouYn-FKTAAm33qNDEqAPavznLNY";
 
 function parseCSV(text) {
@@ -199,7 +206,7 @@ async function carregarDados() {
   const escalaBody = document.getElementById("escalaBody");
   const feriasGrid = document.getElementById("feriasGrid");
 
-  escalaBody.innerHTML = "<tr><td colspan='4' style='text-align:center; box-shadow:none'>Buscando dados...</td></tr>";
+  escalaBody.innerHTML = "<tr><td colspan='4' style='text-align:center'>Buscando dados...</td></tr>";
   feriasGrid.innerHTML = "";
 
   const dataAtual = new Date();
@@ -235,7 +242,7 @@ async function carregarDados() {
         <td>${r[0]}</td>
         <td>${diaSemana}</td>
         <td style="font-weight: 600;">${militarTexto}</td>
-        <td>${r[4] || "-"}</td>
+        <td>${r[4] || ""}</td>
       `;
       escalaBody.appendChild(tr);
     });
@@ -253,7 +260,7 @@ async function carregarDados() {
     });
 
   } catch (e) {
-    escalaBody.innerHTML = "<tr><td colspan='4' style='color:#ff5555; text-align:center; box-shadow:none'>Erro na conexão.</td></tr>";
+    escalaBody.innerHTML = "<tr><td colspan='4' style='color:#ff5555; text-align:center'>Erro ao carregar dados.</td></tr>";
   }
 }
 
