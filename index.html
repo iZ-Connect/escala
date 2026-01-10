@@ -6,12 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* 🎨 PALETA DE CORES DO APP:
+   Fundo: #121212 (Preto suave)
+   Cards/Linhas: #1E1E1E (Cinza chumbo)
+   Azul: #2196F3 (Azul Material)
+   Amarelo/Hoje: #FFD700 (Dourado/Alerta)
+   Fim de Semana: #3D0C0C (Vinho Escuro)
+*/
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #0b1220;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: #121212; /* Fundo escuro do app */
   margin: 0;
-  padding: 20px;
-  color: #e5e7eb;
+  padding: 15px;
+  color: #FFFFFF;
   min-height: 100vh;
 }
 
@@ -22,110 +30,118 @@ body {
 
 h1 {
   text-align: center;
-  color: #ffffff;
+  color: #2196F3; /* Título no azul do app */
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 h2 {
-  color: #3b82f6;
-  border-bottom: 2px solid #1e293b;
-  padding-bottom: 8px;
+  color: #2196F3;
+  font-size: 18px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  margin-top: 30px;
 }
 
 .menu {
   text-align: center;
-  margin: 30px 0;
+  margin-bottom: 25px;
 }
 
 select {
-  padding: 12px 24px;
-  border-radius: 8px;
-  background: #1e293b;
-  color: #f8fafc;
-  border: 1px solid #3b82f6;
+  padding: 12px 20px;
+  border-radius: 6px;
+  background: #1E1E1E;
+  color: #FFFFFF;
+  border: 1px solid #2196F3;
   font-size: 16px;
   cursor: pointer;
+  width: 100%;
+  max-width: 300px;
 }
 
 table {
   width: 100%;
-  border-collapse: collapse;
-  background: #1f2933;
-  border-radius: 12px;
-  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0 4px; /* Efeito de cards empilhados */
+  background: transparent;
 }
 
 th {
-  background: #111827;
-  padding: 15px;
+  background: #121212;
+  padding: 12px;
   text-align: left;
   text-transform: uppercase;
-  font-size: 13px;
-  color: #94a3b8;
-}
-
-td {
-  padding: 14px 15px;
-  border-bottom: 1px solid #1e293b;
-}
-
-tbody tr {
-  background: #2b2b2b; /* cinza padrão dos dias */
-}
-
-tr:last-child td {
-  border-bottom: none;
-}
-
-tr:hover {
-  background: #3a3a3a;
-}
-
-/* 🔴 Finais de semana E feriados */
-.weekend {
-  background: #450a0a !important;
-  color: #fecaca;
-}
-
-/* 🟡 DIA ATUAL */
-.today {
-  background: #facc15 !important;
-  color: #1e293b !important;
+  font-size: 12px;
+  color: #999;
   font-weight: bold;
 }
 
-.today td {
-  border-bottom: 1px solid #eab308;
+td {
+  padding: 15px;
+  background: #1E1E1E; /* Cinza dos cards da imagem */
 }
 
+/* Arredondar cantos das linhas */
+td:first-child { border-radius: 8px 0 0 8px; }
+td:last-child { border-radius: 0 8px 8px 0; }
+
+tr:hover td {
+  background: #252525;
+}
+
+/* 🔴 Finais de semana e feriados (Vinho discreto) */
+.weekend td {
+  background: #2D1010 !important;
+  color: #FFBABA;
+}
+
+/* 🟡 DIA ATUAL (Destaque Amarelo do App) */
+.today td {
+  background: #FFD700 !important;
+  color: #000000 !important;
+  font-weight: bold;
+}
+
+.today td:first-child { border-left: 5px solid #2196F3; }
+
 .ferias-section {
-  margin-top: 50px;
-  background: rgba(15, 23, 42, 0.6);
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #1e293b;
+  margin-top: 40px;
 }
 
 .ferias-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
   margin-top: 15px;
 }
 
 .ferias-card {
-  background: #1e293b;
+  background: #1E1E1E;
   padding: 15px;
   border-radius: 8px;
-  border-left: 5px solid #3b82f6;
+  border-left: 4px solid #2196F3;
+}
+
+.ferias-card strong {
+  color: #2196F3;
+  font-size: 16px;
+}
+
+.ferias-card span {
+  color: #BBB;
+  font-size: 14px;
 }
 
 footer {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 60px;
   padding: 20px;
-  font-size: 12px;
-  color: #64748b;
-  border-top: 1px solid #1e293b;
+  font-size: 11px;
+  color: #555;
+  border-top: 1px solid #222;
 }
 </style>
 </head>
@@ -133,7 +149,6 @@ footer {
 <body>
 
 <div class="container">
-
   <h1>☢️ Escala - HGeSM</h1>
 
   <div class="menu">
@@ -145,7 +160,7 @@ footer {
       <option>MAIO</option>
       <option>JUNHO</option>
       <option>JULHO</option>
-      <option>AGOSTO</option>
+      <option value="AGOSTO">AGOSTO</option>
       <option>SETEMBRO</option>
       <option>OUTUBRO</option>
       <option>NOVEMBRO</option>
@@ -159,7 +174,7 @@ footer {
         <th>Data</th>
         <th>Dia</th>
         <th>Militar</th>
-        <th>Substituído</th>
+        <th>Substituto</th>
       </tr>
     </thead>
     <tbody id="escalaBody"></tbody>
@@ -171,13 +186,13 @@ footer {
   </div>
 
   <footer>
-    Escala de Serviço Imagem HGeSM © 2026<br>
+    Escala de Serviço HGeSM © 2026<br>
     Desenvolvido por Ezequiel Fagundes
   </footer>
-
 </div>
 
 <script>
+// ID da planilha corrigido com base no seu link
 const sheetId = "10WpBBvicIuFjLiYyouYn-FKTAAm33qNDEqAPavznLNY";
 
 function parseCSV(text) {
@@ -191,86 +206,65 @@ async function carregarDados() {
   const escalaBody = document.getElementById("escalaBody");
   const feriasGrid = document.getElementById("feriasGrid");
 
-  escalaBody.innerHTML = "<tr><td colspan='4'>Carregando...</td></tr>";
+  escalaBody.innerHTML = "<tr><td colspan='4'>Carregando dados da nuvem...</td></tr>";
   feriasGrid.innerHTML = "";
 
-  const hoje = new Date().toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit"
-  });
+  const dataAtual = new Date();
+  const diaH = String(dataAtual.getDate()).padStart(2, '0');
+  const mesH = String(dataAtual.getMonth() + 1).padStart(2, '0');
+  const hojeFormatado = `${diaH}/${mesH}`;
 
   try {
-    /* ESCALA */
-    const urlEscala =
-      `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(mes)}`;
-
+    const urlEscala = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(mes)}`;
     const escalaCSV = await fetch(urlEscala).then(r => r.text());
     const escalaRows = parseCSV(escalaCSV).slice(1);
 
     escalaBody.innerHTML = "";
 
     escalaRows.forEach(r => {
-      if (!r[0]) return;
+      if (!r[0] || r[0] === "DATA") return;
 
       const tr = document.createElement("tr");
-
+      const dataCell = r[0];
       const diaSemana = r[1] || "";
-      const feriado = (r[2] || "").toUpperCase(); // 👈 COLUNA F
+      const feriado = (r[2] || "").toUpperCase();
 
-      const isFimDeSemana =
-        diaSemana.includes("SÁB") || diaSemana.includes("DOM");
-
-      const isFeriado =
-        feriado === "TRUE" ||
-        feriado === "SIM" ||
-        feriado === "✔" ||
-        feriado === "X" ||
-        feriado === "1";
+      const isFimDeSemana = diaSemana.includes("SÁB") || diaSemana.includes("DOM");
+      const isFeriado = ["TRUE", "SIM", "✔", "X", "1"].includes(feriado);
 
       if (isFimDeSemana || isFeriado) {
         tr.classList.add("weekend");
       }
 
-      let militarTexto = r[3] || "-";
-
-      if (r[0] === hoje) {
-        tr.classList.remove("weekend"); // HOJE tem prioridade
-        tr.classList.add("today");
-        militarTexto = `☢️ ${militarTexto}`;
+      // Verificação de "Hoje"
+      // Se na sua planilha a data está em formato 2026-01-10, o script ajusta:
+      if (dataCell.includes(hojeFormatado) || dataCell === hojeFormatado) {
+        tr.className = "today";
       }
 
       tr.innerHTML = `
         <td>${r[0]}</td>
         <td>${diaSemana}</td>
-        <td>${militarTexto}</td>
+        <td>${r[3] || "-"}</td>
         <td>${r[4] || ""}</td>
       `;
-
       escalaBody.appendChild(tr);
     });
 
-    /* FÉRIAS */
-    const urlFerias =
-      `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent("FÉRIAS e AFASTADOS")}`;
-
+    const urlFerias = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent("FÉRIAS e AFASTADOS")}`;
     const feriasCSV = await fetch(urlFerias).then(r => r.text());
     const feriasRows = parseCSV(feriasCSV).slice(1);
 
     feriasRows.forEach(r => {
       if (!r[0]) return;
-
       const card = document.createElement("div");
       card.className = "ferias-card";
-      card.innerHTML = `
-        <strong>${r[0]}</strong><br>
-        <span>${r[2] || "?"} até ${r[3] || "?"}</span>
-      `;
+      card.innerHTML = `<strong>${r[0]}</strong><br><span>${r[2] || "?"} até ${r[3] || "?"}</span>`;
       feriasGrid.appendChild(card);
     });
 
   } catch (e) {
-    escalaBody.innerHTML =
-      "<tr><td colspan='4' style='color:red'>Erro ao carregar dados</td></tr>";
+    escalaBody.innerHTML = "<tr><td colspan='4' style='color:#ff5555'>Erro na conexão com Google Sheets</td></tr>";
   }
 }
 
