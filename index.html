@@ -148,18 +148,18 @@ footer {
 
   <div class="menu">
     <select id="mesSelect" onchange="carregarDados()">
-      <option>JANEIRO</option>
-      <option>FEVEREIRO</option>
-      <option>MARÇO</option>
-      <option>ABRIL</option>
-      <option>MAIO</option>
-      <option>JUNHO</option>
-      <option>JULHO</option>
+      <option value="JANEIRO">JANEIRO</option>
+      <option value="FEVEREIRO">FEVEREIRO</option>
+      <option value="MARÇO">MARÇO</option>
+      <option value="ABRIL">ABRIL</option>
+      <option value="MAIO">MAIO</option>
+      <option value="JUNHO">JUNHO</option>
+      <option value="JULHO">JULHO</option>
       <option value="AGOSTO">AGOSTO</option>
-      <option>SETEMBRO</option>
-      <option>OUTUBRO</option>
-      <option>NOVEMBRO</option>
-      <option>DEZEMBRO</option>
+      <option value="SETEMBRO">SETEMBRO</option>
+      <option value="OUTUBRO">OUTUBRO</option>
+      <option value="NOVEMBRO">NOVEMBRO</option>
+      <option value="DEZEMBRO">DEZEMBRO</option>
     </select>
   </div>
 
@@ -222,7 +222,6 @@ async function carregarDados() {
       const tr = document.createElement("tr");
       const dataCell = r[0];
       
-      // Limpeza de texto robusta: remove acentos, espaços e converte para maiúsculo
       const diaSemanaLimpo = (r[1] || "")
         .trim()
         .toUpperCase()
@@ -239,12 +238,12 @@ async function carregarDados() {
       }
 
       let militarTexto = r[3] || "-";
-      let dataDisplay = r[0]; // Variável para controlar a exibição da data
+      let dataDisplay = r[0]; 
 
+      // Lógica para o dia atual: Moldura azul e ícone na DATA
       if (dataCell.includes(hojeBR) || dataCell === hojeISO) {
         tr.classList.add("today");
-        // Adiciona o símbolo antes da data em vez de antes do nome
-        dataDisplay = `☢️ ${r[0]}`;
+        dataDisplay = `☢️ ${r[0]}`; 
       }
 
       tr.innerHTML = `
@@ -273,7 +272,18 @@ async function carregarDados() {
   }
 }
 
-window.onload = carregarDados;
+// Configuração inicial ao carregar a página
+window.onload = function() {
+  const meses = ["JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"];
+  const mesAtualNome = meses[new Date().getMonth()];
+  
+  // Define o valor do select para o mês atual
+  const select = document.getElementById("mesSelect");
+  select.value = mesAtualNome;
+  
+  // Inicia a busca de dados
+  carregarDados();
+};
 </script>
 
 </body>
