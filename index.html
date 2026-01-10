@@ -8,7 +8,7 @@
 <style>
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: radial-gradient(circle at top, #0b1220, #020617);
+  background: #000000;
   margin: 0;
   padding: 20px;
   color: #e5e7eb;
@@ -49,13 +49,13 @@ select {
 table {
   width: 100%;
   border-collapse: collapse;
-  background: #0f172a;
+  background: #1f2933;
   border-radius: 12px;
   overflow: hidden;
 }
 
 th {
-  background: #1e293b;
+  background: #111827;
   padding: 15px;
   text-align: left;
   text-transform: uppercase;
@@ -68,21 +68,25 @@ td {
   border-bottom: 1px solid #1e293b;
 }
 
+tbody tr {
+  background: #2b2b2b; /* cinza padrão dos dias */
+}
+
 tr:last-child td {
   border-bottom: none;
 }
 
 tr:hover {
-  background: #1e293b;
+  background: #3a3a3a;
 }
 
-/* Finais de semana */
+/* 🔴 Finais de semana E feriados */
 .weekend {
   background: #450a0a !important;
   color: #fecaca;
 }
 
-/* 🔆 DIA ATUAL */
+/* 🟡 DIA ATUAL */
 .today {
   background: #facc15 !important;
   color: #1e293b !important;
@@ -190,12 +194,10 @@ async function carregarDados() {
   escalaBody.innerHTML = "<tr><td colspan='4'>Carregando...</td></tr>";
   feriasGrid.innerHTML = "";
 
-  const hojeDate = new Date();
-const hoje = hojeDate.toLocaleDateString("pt-BR", {
-  day: "2-digit",
-  month: "2-digit"
-});
-
+  const hoje = new Date().toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit"
+  });
 
   try {
     /* ESCALA */
@@ -212,20 +214,34 @@ const hoje = hojeDate.toLocaleDateString("pt-BR", {
 
       const tr = document.createElement("tr");
 
-      if (r[1] && (r[1].includes("SÁB") || r[1].includes("DOM"))) {
+      const diaSemana = r[1] || "";
+      const feriado = (r[2] || "").toUpperCase(); // 👈 COLUNA F
+
+      const isFimDeSemana =
+        diaSemana.includes("SÁB") || diaSemana.includes("DOM");
+
+      const isFeriado =
+        feriado === "TRUE" ||
+        feriado === "SIM" ||
+        feriado === "✔" ||
+        feriado === "X" ||
+        feriado === "1";
+
+      if (isFimDeSemana || isFeriado) {
         tr.classList.add("weekend");
       }
 
       let militarTexto = r[3] || "-";
 
       if (r[0] === hoje) {
+        tr.classList.remove("weekend"); // HOJE tem prioridade
         tr.classList.add("today");
         militarTexto = `☢️ ${militarTexto}`;
       }
 
       tr.innerHTML = `
         <td>${r[0]}</td>
-        <td>${r[1] || ""}</td>
+        <td>${diaSemana}</td>
         <td>${militarTexto}</td>
         <td>${r[4] || ""}</td>
       `;
@@ -246,7 +262,7 @@ const hoje = hojeDate.toLocaleDateString("pt-BR", {
       const card = document.createElement("div");
       card.className = "ferias-card";
       card.innerHTML = `
-        <strong>${r[0]}</strong>
+        <strong>${r[0]}</strong><br>
         <span>${r[2] || "?"} até ${r[3] || "?"}</span>
       `;
       feriasGrid.appendChild(card);
