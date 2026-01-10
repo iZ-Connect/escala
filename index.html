@@ -239,13 +239,16 @@ async function carregarDados() {
       }
 
       let militarTexto = r[3] || "-";
+      let dataDisplay = r[0]; // Variável para controlar a exibição da data
+
       if (dataCell.includes(hojeBR) || dataCell === hojeISO) {
         tr.classList.add("today");
-        militarTexto = `☢️ ${militarTexto}`;
+        // Adiciona o símbolo antes da data em vez de antes do nome
+        dataDisplay = `☢️ ${r[0]}`;
       }
 
       tr.innerHTML = `
-        <td>${r[0]}</td>
+        <td>${dataDisplay}</td>
         <td>${r[1] || ""}</td>
         <td style="font-weight: 600;">${militarTexto}</td>
         <td>${r[4] || ""}</td>
